@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圣诞快乐</title>
+    <style>
+        body {
+            background-color: #050505;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* 顶部文字 */
+        .header {
+            color: #ff4d4d;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff0000;
+            margin-bottom: 20px;
+            animation: blink 1.5s infinite alternate;
+        }
+
+        /* 圣诞树容器 */
+        .tree-container {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 圣诞树主体 (层叠结构) */
+        .tree-layer {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 150px solid #2d5a27;
+            bottom: 100px;
+        }
+        .layer2 { border-bottom-width: 130px; bottom: 180px; transform: scale(0.8); }
+        .layer3 { border-bottom-width: 110px; bottom: 240px; transform: scale(0.6); }
+
+        /* 中间的照片窗口 */
+        .photo-frame {
+            position: absolute;
+            bottom: 140px;
+            width: 80px;
+            height: 80px;
+            border: 4px solid #fff;
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(255,255,255,0.8);
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 彩灯动画 */
+        .lights {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            z-index: 5;
+            animation: flash 1s infinite alternate;
+        }
+
+        @keyframes flash {
+            from { opacity: 0.4; box-shadow: 0 0 2px #fff; }
+            to { opacity: 1; box-shadow: 0 0 10px #fff; }
+        }
+
+        @keyframes blink {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+
+        /* 简单雪花 */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            user-select: none;
+            z-index: 1000;
+            animation: fall linear forwards;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">Merry Christmas! 🎄</div>
+
+    <div class="tree-container">
+        <div style="position:absolute; bottom:50px; width:40px; height:60px; background:#5d4037;"></div>
+        
+        <div class="tree-layer"></div>
+        <div class="tree-layer layer2"></div>
+        <div class="tree-layer layer3"></div>
+
+        <div style="position:absolute; top:20px; color:#ffd700; font-size:40px; z-index:20;">★</div>
+
+        <div class="photo-frame">
+            <img src="https://via.placeholder.com/150" alt="你的照片">
+        </div>
+
+        </div>
+
+    <script>
+        // 生成彩灯
+        const container = document.querySelector('.tree-container');
+        const colors = ['#ff0000', '#ffff00', '#0000ff', '#ffffff', '#ff69b4'];
+        for (let i = 0; i < 30; i++) {
+            const light = document.createElement('div');
+            light.className = 'lights';
+            light.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            light.style.left = Math.random() * 200 + 50 + 'px';
+            light.style.bottom = Math.random() * 250 + 100 + 'px';
+            light.style.animationDelay = Math.random() * 2 + 's';
+            container.appendChild(light);
+        }
+
+        // 生成雪花
+        function createSnowflake() {
+            const snow = document.createElement('div');
+            snow.className = 'snowflake';
+            snow.innerHTML = '❄';
+            snow.style.left = Math.random() * 100 + 'vw';
+            snow.style.fontSize = Math.random() * 10 + 10 + 'px';
+            snow.style.opacity = Math.random();
+            snow.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(snow);
+            setTimeout(() => snow.remove(), 5000);
+        }
+        setInterval(createSnowflake, 200);
+    </script>
+</body>
+</html>
